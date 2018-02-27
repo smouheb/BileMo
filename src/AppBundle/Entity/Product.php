@@ -85,6 +85,11 @@ class Product
     private $updatedat;
 
 
+    public function __construct()
+    {
+        $this->createdat = new \DateTime('now');
+    }
+
     /**
      * Get id
      *
