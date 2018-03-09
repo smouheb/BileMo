@@ -2,26 +2,38 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\DataFixtures;
 use AppBundle\Entity\Product;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadTestData implements FixtureInterface
+class LoadTestData extends Fixture
 {
-
     public function load(ObjectManager $manager)
     {
-        $product = (new Product())
-            ->setBattery('Qualcomm battery')
-            ->setColor('balck')
-            ->setMemory('64GB')
-            ->setName('Samsung Galaxy 8')
-            ->setType('Smart Phone')
-            ->setSize('5.5')
-            ->setPrice('350');
+         $name = array('Smart Phone', 'Android Phone', 'Phablet', 'iPhone');
+         $type = array('iPhone 6', 'Samsung Galaxy 3', 'Samsung Galaxy 6', 'iPhone 7');
+         $battery = array('Qualcomm battery', 'Battery test', 'Battery test2', 'Battery tet3');
+         $color = array('Rouge', 'Bleu', 'Noir', 'Gris');
 
-        $manager->persist($product);
+
+    for ($i = 0; $i < 100; $i++){
+
+
+        for ($x = 0; $x < 4; $x++){
+
+            $product = new Product();
+            $product->setSize(mt_rand(4, 5.5));
+            $product->setPrice(mt_rand(250, 890));
+            $product->setName($name[$x]);
+            $product->setType($type[$x]);
+            $product->setColor($color[$x]);
+            $product->setBattery($battery[$x]);
+            $product->setMemory(mt_rand(15, 64).'GB');
+
+            $manager->persist($product);
+        }
+    }
         $manager->flush();
-
     }
 }
