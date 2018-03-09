@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,20 @@ class Client
      */
     private $updatedat;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinTable(name="client_products",
+     *      joinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")})
+     */
+    private $product;
+
+
+    public function __construct()
+    {
+        $this->createdat = new \DateTime();
+        $this->product = new ArrayCollection();
+    }
 
     /**
      * Get id
