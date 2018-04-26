@@ -1,0 +1,330 @@
+<?php
+
+/*
+ * This file is part of the NelmioApiDocBundle package.
+ *
+ * (c) Nelmio
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Nelmio\ApiDocBundle\Tests\Functional;
+
+use EXSyst\Component\Swagger\Tag;
+use Nelmio\ApiDocBundle\Tests\Functional\Form\DummyType;
+
+class FunctionalTest extends WebTestCase
+{
+    public function testConfiguredDocumentation()
+    {
+        $this->assertEquals('My Test App', $this->getSwaggerDefinition()->getInfo()->getTitle());
+    }
+
+    public function testUndocumentedAction()
+    {
+        $paths = $this->getSwaggerDefinition()->getPaths();
+        $this->assertFalse($paths->has('/undocumented'));
+        $this->assertFalse($paths->has('/api/admin'));
+    }
+
+    public function testFetchArticleAction()
+    {
+        $operation = $this->getOperation('/api/article/{id}', 'get');
+
+        $responses = $operation->getResponses();
+        $this->assertTrue($responses->has('200'));
+        $this->assertEquals('#/definitions/Article', $responses->get('200')->getSchema()->getRef());
+
+        // Ensure that groups are supported
+        $modelProperties = $this->getModel('Article')->getProperties();
+        $this->assertCount(1, $modelProperties);
+        $this->assertTrue($modelProperties->has('author'));
+        $this->assertFalse($modelProperties->has('content'));
+    }
+
+    public function testFilteredAction()
+    {
+        $paths = $this->getSwaggerDefinition()->getPaths();
+
+        $this->assertFalse($paths->has('/filtered'));
+    }
+
+    /**
+     * Tests that the paths are automatically resolved in Swagger annotations.
+     *
+     * @dataProvider swaggerActionPathsProvider
+     */
+    public function testSwaggerAction($path)
+    {
+        $operation = $this->getOperation($path, 'get');
+
+        $responses = $operation->getResponses();
+        $this->assertTrue($responses->has('201'));
+        $this->assertEquals('An example resource', $responses->get('201')->getDescription());
+    }
+
+    public function swaggerActionPathsProvider()
+    {
+        return [['/api/swagger'], ['/api/swagger2']];
+    }
+
+    /**
+     * @dataProvider implicitSwaggerActionMethodsProvider
+     */
+    public function testImplicitSwaggerAction($method)
+    {
+        $operation = $this->getOperation('/api/swagger/implicit', $method);
+
+        $this->assertEquals([new Tag('implicit')], $operation->getTags());
+
+        $responses = $operation->getResponses();
+        $this->assertTrue($responses->has('201'));
+        $response = $responses->get('201');
+        $this->assertEquals('Operation automatically detected', $response->getDescription());
+        $this->assertEquals('#/definitions/User', $response->getSchema()->getRef());
+
+        $parameters = $operation->getParameters();
+        $this->assertTrue($parameters->has('foo', 'body'));
+        $parameter = $parameters->get('foo', 'body');
+
+        $this->assertEquals('This is a parameter', $parameter->getDescription());
+        $this->assertEquals('#/definitions/User', $parameter->getSchema()->getItems()->getRef());
+    }
+
+    public function implicitSwaggerActionMethodsProvider()
+    {
+        return [['get'], ['post']];
+    }
+
+    public function testUserAction()
+    {
+        $operation = $this->getOperation('/api/test/{user}', 'get');
+
+        $this->assertEquals(['https'], $operation->getSchemes());
+        $this->assertEmpty($operation->getSummary());
+        $this->assertEmpty($operation->getDescription());
+        $this->assertNull($operation->getDeprecated());
+        $this->assertTrue($operation->getResponses()->has(200));
+
+        $parameters = $operation->getParameters();
+        $this->assertTrue($parameters->has('user', 'path'));
+
+        $parameter = $parameters->get('user', 'path');
+        $this->assertTrue($parameter->getRequired());
+        $this->assertEquals('string', $parameter->getType());
+        $this->assertEquals('/foo/', $parameter->getPattern());
+        $this->assertEmpty($parameter->getFormat());
+    }
+
+    public function testFOSRestAction()
+    {
+        $operation = $this->getOperation('/api/fosrest', 'post');
+
+        $parameters = $operation->getParameters();
+        $this->assertTrue($parameters->has('foo', 'query'));
+        $this->assertTrue($parameters->has('bar', 'formData'));
+        $this->assertTrue($parameters->has('baz', 'formData'));
+
+        $fooParameter = $parameters->get('foo', 'query');
+        $this->assertNotNull($fooParameter->getPattern());
+        $this->assertEquals('\d+', $fooParameter->getPattern());
+        $this->assertNull($fooParameter->getFormat());
+
+        $barParameter = $parameters->get('bar', 'formData');
+        $this->assertNotNull($barParameter->getPattern());
+        $this->assertEquals('\d+', $barParameter->getPattern());
+        $this->assertNull($barParameter->getFormat());
+
+        $bazParameter = $parameters->get('baz', 'formData');
+        $this->assertNotNull($bazParameter->getFormat());
+        $this->assertEquals('IsTrue', $bazParameter->getFormat());
+        $this->assertNull($bazParameter->getPattern());
+
+        // The _format path attribute should be removed
+        $this->assertFalse($parameters->has('_format', 'path'));
+    }
+
+    public function testDeprecatedAction()
+    {
+        $operation = $this->getOperation('/api/deprecated', 'get');
+
+        $this->assertEquals('This action is deprecated.', $operation->getSummary());
+        $this->assertEquals('Please do not use this action.', $operation->getDescription());
+        $this->assertTrue($operation->getDeprecated());
+    }
+
+    public function testApiPlatform()
+    {
+        $operation = $this->getOperation('/api/dummies', 'get');
+        $operation = $this->getOperation('/api/foo', 'get');
+        $operation = $this->getOperation('/api/foo', 'post');
+        $operation = $this->getOperation('/api/dummies/{id}', 'get');
+    }
+
+    public function testUserModel()
+    {
+        $this->assertEquals(
+            [
+                'type' => 'object',
+                'properties' => [
+                    'money' => [
+                        'type' => 'number',
+                        'format' => 'float',
+                        'default' => 0.0,
+                    ],
+                    'id' => [
+                        'type' => 'integer',
+                        'description' => 'User id',
+                        'readOnly' => true,
+                        'title' => 'userid',
+                        'example' => 1,
+                    ],
+                    'email' => [
+                        'type' => 'string',
+                        'readOnly' => false,
+                    ],
+                    'roles' => [
+                        'title' => 'roles',
+                        'type' => 'array',
+                        'description' => 'User roles',
+                        'example' => '["ADMIN","SUPERUSER"]',
+                        'items' => ['type' => 'string'],
+                        'default' => ['user'],
+                    ],
+                    'friendsNumber' => [
+                        'type' => 'string',
+                    ],
+                    'creationDate' => [
+                        'type' => 'string',
+                        'format' => 'date-time',
+                    ],
+                    'users' => [
+                        'items' => [
+                            '$ref' => '#/definitions/User',
+                        ],
+                        'type' => 'array',
+                    ],
+                    'dummy' => [
+                        '$ref' => '#/definitions/Dummy2',
+                    ],
+                    'status' => [
+                        'type' => 'string',
+                        'enum' => ['disabled', 'enabled'],
+                    ],
+                ],
+            ],
+            $this->getModel('User')->toArray()
+        );
+    }
+
+    public function testFormSupport()
+    {
+        $this->assertEquals([
+            'type' => 'object',
+            'properties' => [
+                'dummy' => ['$ref' => '#/definitions/DummyType'],
+                'dummies' => [
+                    'items' => ['$ref' => '#/definitions/DummyType'],
+                    'type' => 'array',
+                    'example' => sprintf('[{%s}]', DummyType::class),
+                ],
+                'quz' => [
+                    'type' => 'string',
+                    'description' => 'User type.',
+                ],
+            ],
+            'required' => ['dummy', 'dummies'],
+        ], $this->getModel('UserType')->toArray());
+
+        $this->assertEquals([
+            'type' => 'object',
+            'properties' => [
+                'bar' => [
+                    'type' => 'string',
+                ],
+                'foo' => [
+                    'type' => 'string',
+                    'enum' => ['male', 'female'],
+                ],
+                'foz' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'string',
+                        'enum' => ['male', 'female'],
+                    ],
+                ],
+                'baz' => [
+                    'type' => 'boolean',
+                ],
+                'bey' => [
+                    'type' => 'integer',
+                ],
+            ],
+            'required' => ['foo', 'foz'],
+        ], $this->getModel('DummyType')->toArray());
+    }
+
+    public function testSecurityAction()
+    {
+        $operation = $this->getOperation('/api/security', 'get');
+
+        $expected = [
+            ['api_key' => []],
+            ['basic' => []],
+        ];
+        $this->assertEquals($expected, $operation->getSecurity());
+    }
+
+    public function testSymfonyConstraintDocumentation()
+    {
+        $this->assertEquals([
+            'required' => [
+                'propertyNotBlank',
+                'propertyNotNull',
+                'propertyAssertLengthRequired',
+            ],
+            'properties' => [
+                'propertyNotBlank' => [
+                    'type' => 'integer',
+                ],
+                'propertyNotNull' => [
+                    'type' => 'integer',
+                ],
+                'propertyAssertLengthRequired' => [
+                    'type' => 'integer',
+                    'minLength' => '1',
+                ],
+                'propertyAssertLengthMinAndMax' => [
+                    'type' => 'integer',
+                    'maxLength' => '50',
+                    'minLength' => '0',
+                ],
+                'propertyRegex' => [
+                    'type' => 'integer',
+                    'pattern' => '.*[a-z]{2}.*',
+                ],
+                'propertyCount' => [
+                    'type' => 'integer',
+                    'maxItems' => '10',
+                    'minItems' => '0',
+                ],
+                'propertyChoice' => [
+                    'type' => 'integer',
+                    'enum' => ['choice1', 'choice2'],
+                ],
+                'propertyExpression' => [
+                    'type' => 'integer',
+                    'pattern' => 'If this is a tech post, the category should be either php or symfony!',
+                ],
+            ],
+            'type' => 'object',
+        ], $this->getModel('SymfonyConstraints')->toArray());
+    }
+
+    public function testConfigReference()
+    {
+        $operation = $this->getOperation('/api/configReference', 'get');
+        $this->assertEquals('#/definitions/Test', $operation->getResponses()->get('200')->getSchema()->getRef());
+    }
+}
