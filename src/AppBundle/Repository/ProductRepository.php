@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\NoResultException;
 
 /**
  * ProductRepository
@@ -10,4 +11,53 @@ namespace AppBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function namesOfProducts()
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('p.id','p.name')
+            ->from('AppBundle:Product', 'p');
+
+        $result = $qb->getQuery()
+                     ->getResult();
+
+        try{
+
+            return $result;
+
+        }catch (NoResultException $e){
+
+            return $e;
+        }
+
+
+    }
+
+    /**
+     * @param $id
+     */
+    public function productDetails($id)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('p')
+            ->from('AppBundle:Product', 'p')
+            ->where('p.id='.$id);
+
+       $result =  $qb->getQuery()
+                     ->getResult();
+
+       try{
+
+           return $result;
+
+       }catch (NoResultException $e){
+
+           return $e;
+
+       }
+    }
 }

@@ -3,12 +3,45 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
+ *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ *
+ * @Serializer\ExclusionPolicy("all")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href= @Hateoas\Route(
+ *      "Users",
+ *      parameters={ "id" = "expr(object.getId())" },
+ *      absolute=true
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "create",
+ *     href= @Hateoas\Route(
+ *      "user-creation",
+ *      parameters={ "id" = "expr(object.getId())" },
+ *      absolute=true
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href= @Hateoas\Route(
+ *      "user-deletion",
+ *      parameters={ "id" = "expr(object.getId())" },
+ *      absolute=true
+ *     )
+ * )
  */
 class User
 {
@@ -16,7 +49,9 @@ class User
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -25,6 +60,12 @@ class User
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
+     *
+     * @Serializer\Expose()
+     *
+     * @Assert\NotBlank()
+     *
+     * @Assert\Type("string")
      */
     private $username;
 
@@ -32,6 +73,10 @@ class User
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
+     *
+     * @Serializer\Expose()
+     *
+     * @Assert\NotBlank()
      */
     private $password;
 
@@ -39,20 +84,22 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     *
+     * @Serializer\Expose()
+     *
+     * @Assert\NotBlank()
+     *
+     * @Assert\Type("string")
      */
     private $email;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string", length=255)
-     */
-    private $salt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdat", type="datetime")
+     *
+     * @Serializer\Expose()
      */
     private $createdat;
 
@@ -63,6 +110,22 @@ class User
      */
     private $updatedat;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_id", type="integer")
+     *
+     * @Serializer\Expose()
+     *
+     * @Assert\NotBlank()
+     */
+    private $client;
+
+
+    public function __construct()
+    {
+        $this->createdat = new \DateTime();
+    }
 
     /**
      * Get id
@@ -107,7 +170,7 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
 
         return $this;
     }
@@ -147,37 +210,13 @@ class User
     }
 
     /**
-     * Set salt
-     *
-     * @param string $salt
-     *
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Get salt
-     *
-     * @return string
-     */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    /**
      * Set createdat
      *
      * @param \DateTime $createdat
      *
      * @return User
      */
-    public function setCreatedat($createdat)
+    public function setCreatedAt($createdat)
     {
         $this->createdat = $createdat;
 
@@ -189,7 +228,7 @@ class User
      *
      * @return \DateTime
      */
-    public function getCreatedat()
+    public function getCreatedAt()
     {
         return $this->createdat;
     }
@@ -201,7 +240,7 @@ class User
      *
      * @return User
      */
-    public function setUpdatedat($updatedat)
+    public function setUpdatedAt($updatedat)
     {
         $this->updatedat = $updatedat;
 
@@ -213,9 +252,32 @@ class User
      *
      * @return \DateTime
      */
-    public function getUpdatedat()
+    public function getUpdatedAt()
     {
         return $this->updatedat;
     }
-}
 
+    /**
+     * Set client
+     *
+     * @param string $client
+     *
+     * @return User
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return string
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+}

@@ -51,11 +51,17 @@ class Client
      */
     private $product;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", cascade={"remove"}, mappedBy="client")
+     */
+    private $user;
+
 
     public function __construct()
     {
         $this->createdat = new \DateTime();
         $this->product = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     /**
@@ -75,7 +81,7 @@ class Client
      *
      * @return Client
      */
-    public function setClientname($clientname)
+    public function setClientName($clientname)
     {
         $this->clientname = $clientname;
 
@@ -87,7 +93,7 @@ class Client
      *
      * @return string
      */
-    public function getClientname()
+    public function getClientName()
     {
         return $this->clientname;
     }
@@ -99,7 +105,7 @@ class Client
      *
      * @return Client
      */
-    public function setCreatedat($createdat)
+    public function setCreatedAt($createdat)
     {
         $this->createdat = $createdat;
 
@@ -111,7 +117,7 @@ class Client
      *
      * @return \DateTime
      */
-    public function getCreatedat()
+    public function getCreatedAt()
     {
         return $this->createdat;
     }
@@ -123,7 +129,7 @@ class Client
      *
      * @return Client
      */
-    public function setUpdatedat($updatedat)
+    public function setUpdatedAt($updatedat)
     {
         $this->updatedat = $updatedat;
 
@@ -135,7 +141,7 @@ class Client
      *
      * @return \DateTime
      */
-    public function getUpdatedat()
+    public function getUpdatedAt()
     {
         return $this->updatedat;
     }

@@ -13,14 +13,14 @@ class LoadTestData extends Fixture
     {
          $data = 'Corporation';
 
+        for ($i = 0; $i < 100; $i++){
 
-    for ($i = 0; $i < 100; $i++){
+               $client = new Client();
+               $client->setClientname($data.$i);
 
-           $client = new Client();
-           $client->setClientname($data.$i);
+                $manager->persist($client);
+        }
 
-            $manager->persist($client);
-    }
         $manager->flush();
     }
 }

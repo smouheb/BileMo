@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\NoResultException;
 
 /**
  * UserRepository
@@ -10,4 +11,57 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function listOfRelatedUsers($id)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('u')
+            ->from('AppBundle:User', 'u')
+            ->where('u.client ='.$id);
+
+        $result = $qb->getQuery()
+                     ->getResult();
+
+        try{
+
+            return $result;
+
+        }catch (NoResultException $e){
+
+            return null;
+
+        }
+
+
+    }
+
+    /**
+     * Retrieve a user related to a client
+     *
+     * @param $id
+     *
+     */
+    public function deleteUserPerClient($id = null, $username = null )
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('u')
+            ->from('AppBundle:User', 'u');
+
+        try{
+
+            $qb->where('u.id ='.$id);
+
+            $result = $qb->getQuery()
+                         ->getResult();
+
+            return $result;
+
+        }catch (NoResultException $e){
+
+            return $e;
+        }
+    }
 }

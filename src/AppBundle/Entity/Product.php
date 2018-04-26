@@ -3,12 +3,27 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Product
  *
  * @ORM\Table(name="product")
+ *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
+ *
+ * @Serializer\ExclusionPolicy("all")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href= @Hateoas\Route(
+ *      "list-of-products",
+ *      parameters={ "id" = "expr(object.getId())" },
+ *      absolute=true,
+ *     )
+ * )
+ *
  */
 class Product
 {
@@ -16,7 +31,10 @@ class Product
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -25,6 +43,9 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     *
+     * @Serializer\Expose()
      */
     private $name;
 
@@ -32,6 +53,8 @@ class Product
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
+     *
+     * @Serializer\Expose()
      */
     private $type;
 
@@ -39,6 +62,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="size", type="decimal", precision=2, scale=2)
+     *
      */
     private $size;
 
@@ -46,6 +70,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="memory", type="string", length=45)
+     *
      */
     private $memory;
 
@@ -53,6 +78,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="color", type="string", length=45)
+     *
      */
     private $color;
 
@@ -60,6 +86,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="battery", type="string", length=45)
+     *
      */
     private $battery;
 
@@ -67,6 +94,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="price", type="decimal", precision=8, scale=2)
+     *
      */
     private $price;
 
@@ -74,6 +102,7 @@ class Product
      * @var \DateTime
      *
      * @ORM\Column(name="createdat", type="datetime")
+     *
      */
     private $createdat;
 
