@@ -11,14 +11,44 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Product;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-
+use Swagger\Annotations as SWG;
 
 class ProductController extends FOSRestController
 {
     /**
+     *  @SWG\Get(
+     *     path="/products",
+     *     summary="Get products",
+     *     description="Get products",
+     *     operationId="listOfAllProductsAction",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *         name="order",
+     *         in="query",
+     *         description="Order criterion",
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="dir",
+     *         in="query",
+     *         description="Sort criterion",
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number",
+     *         type="integer",
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success",
+     *     )
+     * )
+     *
      * @Rest\Get(path="/products", name="list-of-products")
      *
-     * @Rest\View(statusCode = 200, serializerGroups={"List"})
+     * @Rest\View(statusCode = 200)
      *
      */
     public function listOfAllProductsAction()
@@ -34,7 +64,7 @@ class ProductController extends FOSRestController
 
     /**
      *
-     * @Rest\Get(path="/product/{id}", name="Product-details")
+     * @Rest\Get(path="/products/{id}", name="Product-details")
      *
      * @Rest\View(statusCode= 200)
      *

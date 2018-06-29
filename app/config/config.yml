@@ -30,6 +30,9 @@ framework:
     assets: ~
     php_errors:
         log: true
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
 
 # Twig Configuration
 twig:
@@ -89,3 +92,20 @@ fos_rest:
 sensio_framework_extra:
     view: { annotations: true }
     request: { converters: true }
+
+fos_oauth_server:
+    db_driver: orm
+    client_class: AppBundle\Entity\Client
+    access_token_class: AppBundle\Entity\AccessToken
+    refresh_token_class: AppBundle\Entity\RefreshToken
+    auth_code_class: AppBundle\Entity\AuthCode
+    service:
+        user_provider: fos_user.user_provider.username
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "smael.mouheb@gmail.com"
+        sender_name: "BileMo-Post Man"

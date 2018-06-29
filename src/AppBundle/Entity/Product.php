@@ -63,6 +63,7 @@ class Product
      *
      * @ORM\Column(name="size", type="decimal", precision=2, scale=2)
      *
+     * @Serializer\Expose()
      */
     private $size;
 
@@ -70,6 +71,8 @@ class Product
      * @var string
      *
      * @ORM\Column(name="memory", type="string", length=45)
+     *
+     * @Serializer\Expose()
      *
      */
     private $memory;
@@ -79,6 +82,8 @@ class Product
      *
      * @ORM\Column(name="color", type="string", length=45)
      *
+     * @Serializer\Expose()
+     *
      */
     private $color;
 
@@ -87,6 +92,8 @@ class Product
      *
      * @ORM\Column(name="battery", type="string", length=45)
      *
+     * @Serializer\Expose()
+     *
      */
     private $battery;
 
@@ -94,6 +101,8 @@ class Product
      * @var string
      *
      * @ORM\Column(name="price", type="decimal", precision=8, scale=2)
+     *
+     * @Serializer\Expose()
      *
      */
     private $price;

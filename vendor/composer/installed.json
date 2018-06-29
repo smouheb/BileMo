@@ -1458,6 +1458,84 @@
         ]
     },
     {
+        "name": "friendsofsymfony/user-bundle",
+        "version": "v2.1.2",
+        "version_normalized": "2.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
+            "reference": "1049935edd24ec305cc6cfde1875372fa9600446"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/1049935edd24ec305cc6cfde1875372fa9600446",
+            "reference": "1049935edd24ec305cc6cfde1875372fa9600446",
+            "shasum": ""
+        },
+        "require": {
+            "paragonie/random_compat": "^1 || ^2",
+            "php": "^5.5.9 || ^7.0",
+            "symfony/form": "^2.8 || ^3.0 || ^4.0",
+            "symfony/framework-bundle": "^2.8 || ^3.0 || ^4.0",
+            "symfony/security-bundle": "^2.8 || ^3.0 || ^4.0",
+            "symfony/templating": "^2.8 || ^3.0 || ^4.0",
+            "symfony/twig-bundle": "^2.8 || ^3.0 || ^4.0",
+            "symfony/validator": "^2.8 || ^3.0 || ^4.0",
+            "twig/twig": "^1.28 || ^2.0"
+        },
+        "conflict": {
+            "doctrine/doctrine-bundle": "<1.3",
+            "symfony/doctrine-bridge": "<2.7"
+        },
+        "require-dev": {
+            "doctrine/doctrine-bundle": "^1.3",
+            "friendsofphp/php-cs-fixer": "^2.2",
+            "phpunit/phpunit": "^4.8.35|^5.7.11|^6.5",
+            "swiftmailer/swiftmailer": "^4.3 || ^5.0 || ^6.0",
+            "symfony/console": "^2.8 || ^3.0 || ^4.0",
+            "symfony/phpunit-bridge": "^2.8 || ^3.0 || ^4.0",
+            "symfony/yaml": "^2.8 || ^3.0 || ^4.0"
+        },
+        "time": "2018-03-08T08:59:27+00:00",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "FOS\\UserBundle\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Christophe Coevoet",
+                "email": "stof@notk.org"
+            },
+            {
+                "name": "FriendsOfSymfony Community",
+                "homepage": "https://github.com/friendsofsymfony/FOSUserBundle/contributors"
+            },
+            {
+                "name": "Thibault Duplessis"
+            }
+        ],
+        "description": "Symfony FOSUserBundle",
+        "homepage": "http://friendsofsymfony.github.com",
+        "keywords": [
+            "User management"
+        ]
+    },
+    {
         "name": "incenteev/composer-parameter-handler",
         "version": "v2.1.3",
         "version_normalized": "2.1.3.0",
@@ -1896,17 +1974,17 @@
     },
     {
         "name": "nelmio/api-doc-bundle",
-        "version": "v3.2.0",
-        "version_normalized": "3.2.0.0",
+        "version": "v3.2.1",
+        "version_normalized": "3.2.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-            "reference": "a356221c6769988712295a16bc5896b8265e8029"
+            "reference": "2c72aa4efff07862514aaf2cf078fabc58c465d6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/a356221c6769988712295a16bc5896b8265e8029",
-            "reference": "a356221c6769988712295a16bc5896b8265e8029",
+            "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/2c72aa4efff07862514aaf2cf078fabc58c465d6",
+            "reference": "2c72aa4efff07862514aaf2cf078fabc58c465d6",
             "shasum": ""
         },
         "require": {
@@ -1943,7 +2021,7 @@
             "api-platform/core": "For using an API oriented framework.",
             "friendsofsymfony/rest-bundle": "For using the parameters annotations."
         },
-        "time": "2018-03-24T10:23:14+00:00",
+        "time": "2018-04-27T17:36:50+00:00",
         "type": "symfony-bundle",
         "extra": {
             "branch-alias": {
@@ -3131,6 +3209,63 @@
         ]
     },
     {
+        "name": "symfony/polyfill-ctype",
+        "version": "v1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-ctype.git",
+            "reference": "7cc359f1b7b80fc25ed7796be7d96adc9b354bae"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/7cc359f1b7b80fc25ed7796be7d96adc9b354bae",
+            "reference": "7cc359f1b7b80fc25ed7796be7d96adc9b354bae",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2018-04-30T19:57:29+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Ctype\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            },
+            {
+                "name": "Gert de Pagter",
+                "email": "BackEndTea@gmail.com"
+            }
+        ],
+        "description": "Symfony polyfill for ctype functions",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "ctype",
+            "polyfill",
+            "portable"
+        ]
+    },
+    {
         "name": "symfony/polyfill-intl-icu",
         "version": "v1.7.0",
         "version_normalized": "1.7.0.0",
@@ -3487,17 +3622,17 @@
     },
     {
         "name": "symfony/symfony",
-        "version": "v3.4.8",
-        "version_normalized": "3.4.8.0",
+        "version": "v3.4.11",
+        "version_normalized": "3.4.11.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/symfony.git",
-            "reference": "5304a36c5efbb01af7efe2bb5b1953dbaeebc293"
+            "reference": "8eb567d8398ce31a402ea8db3e6b5b1faf121cbc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/symfony/zipball/5304a36c5efbb01af7efe2bb5b1953dbaeebc293",
-            "reference": "5304a36c5efbb01af7efe2bb5b1953dbaeebc293",
+            "url": "https://api.github.com/repos/symfony/symfony/zipball/8eb567d8398ce31a402ea8db3e6b5b1faf121cbc",
+            "reference": "8eb567d8398ce31a402ea8db3e6b5b1faf121cbc",
             "shasum": ""
         },
         "require": {
@@ -3511,6 +3646,7 @@
             "psr/log": "~1.0",
             "psr/simple-cache": "^1.0",
             "symfony/polyfill-apcu": "~1.1",
+            "symfony/polyfill-ctype": "~1.8",
             "symfony/polyfill-intl-icu": "~1.0",
             "symfony/polyfill-mbstring": "~1.0",
             "symfony/polyfill-php56": "~1.0",
@@ -3597,7 +3733,7 @@
             "symfony/phpunit-bridge": "~3.4|~4.0",
             "symfony/security-acl": "~2.8|~3.0"
         },
-        "time": "2018-04-06T15:20:04+00:00",
+        "time": "2018-05-25T13:16:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

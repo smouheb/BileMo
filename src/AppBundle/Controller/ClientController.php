@@ -8,11 +8,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class ClientController extends FOSRestController
 {
     /**
-     * @Rest\Get(path="/user/{id}", name="Users")
+     * @Rest\Get(path="/users/{id}", name="Users")
      *
      * @Rest\View(statusCode = 200)
      *
@@ -29,7 +30,7 @@ class ClientController extends FOSRestController
     }
 
     /**
-     * @Rest\Get(path="/client/{id}", name="Client")
+     * @Rest\Get(path="/clients/{id}", name="Client")
      *
      * @Rest\View(statusCode = 200)
      *
@@ -56,13 +57,13 @@ class ClientController extends FOSRestController
     }
 
     /**
-     * @Rest\Post(path="/user", name="user-creation")
+     * @Rest\Post(path="/users", name="user-creation")
      *
      * @Rest\View(statusCode = 201)
      *
      * @ParamConverter("user", converter="fos_rest.request_body")
      */
-    public function postUserAction(User $user)
+    public function postUserAction(Request $request, User $user)
     {
 
         $errors = $this->get('validator')->validate($user);
@@ -72,7 +73,15 @@ class ClientController extends FOSRestController
             return $this->view($errors, Response::HTTP_BAD_REQUEST);
         }
 
-        $user->setCreatedAt(new \DateTime('now'));
+        $usermanager = $this->container->get('fos_user.user_manager');
+
+        $user = $usermanager->createUser();
+
+        $user->setUserName($request->get('username'));
+        $user->setPlainPassword($request->get('password'));
+        $user->setEmail($request->get('email'));
+        $user->setEnabled(true);
+        $user->setClient($request->get('client_id'));
 
         $em = $this->getDoctrine()->getManager();
 
@@ -88,15 +97,15 @@ class ClientController extends FOSRestController
                         'id' => $user->getId(), UrlGeneratorInterface::ABSOLUTE_URL
 
                     ]
-               )
+               )//remonter de bug brakets to put behing getid()
            ]
        );
     }
 
     /**
-     * @Rest\Delete(path="/user/{id}", name="user-deletion")
+     * @Rest\Delete(path="/users/{id}", name="user-deletion")
      *
-     * @Rest\View(statusCode = 200)
+     * @Rest\View(statusCode = 204)
      *
      */
     public function deleteUserAction(User $user)

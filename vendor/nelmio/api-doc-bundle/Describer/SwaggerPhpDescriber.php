@@ -18,6 +18,7 @@ use Nelmio\ApiDocBundle\Annotation\Security;
 use Nelmio\ApiDocBundle\SwaggerPhp\AddDefaults;
 use Nelmio\ApiDocBundle\SwaggerPhp\ModelRegister;
 use Nelmio\ApiDocBundle\Util\ControllerReflector;
+use Psr\Log\LoggerInterface;
 use Swagger\Analysis;
 use Swagger\Annotations\AbstractAnnotation;
 use Swagger\Annotations as SWG;
@@ -31,13 +32,15 @@ final class SwaggerPhpDescriber implements ModelRegistryAwareInterface
     private $routeCollection;
     private $controllerReflector;
     private $annotationReader;
+    private $logger;
     private $overwrite;
 
-    public function __construct(RouteCollection $routeCollection, ControllerReflector $controllerReflector, Reader $annotationReader, bool $overwrite = false)
+    public function __construct(RouteCollection $routeCollection, ControllerReflector $controllerReflector, Reader $annotationReader, LoggerInterface $logger, bool $overwrite = false)
     {
         $this->routeCollection = $routeCollection;
         $this->controllerReflector = $controllerReflector;
         $this->annotationReader = $annotationReader;
+        $this->logger = $logger;
         $this->overwrite = $overwrite;
     }
 
@@ -96,7 +99,17 @@ final class SwaggerPhpDescriber implements ModelRegistryAwareInterface
             'head' => SWG\Head::class,
         ];
 
+        $classAnnotations = [];
+
         foreach ($this->getMethodsToParse() as $method => list($path, $httpMethods)) {
+            $declaringClass = $method->getDeclaringClass();
+            if (!array_key_exists($declaringClass->getName(), $classAnnotations)) {
+                $classAnnotations = array_filter($this->annotationReader->getClassAnnotations($declaringClass), function ($v) {
+                    return $v instanceof SWG\AbstractAnnotation;
+                });
+                $classAnnotations[$declaringClass->getName()] = $classAnnotations;
+            }
+
             $annotations = array_filter($this->annotationReader->getMethodAnnotations($method), function ($v) {
                 return $v instanceof SWG\AbstractAnnotation;
             });
@@ -105,7 +118,6 @@ final class SwaggerPhpDescriber implements ModelRegistryAwareInterface
                 continue;
             }
 
-            $declaringClass = $method->getDeclaringClass();
             $context = new Context([
                 'namespace' => $method->getNamespaceName(),
                 'class' => $declaringClass->getShortName(),
@@ -117,7 +129,7 @@ final class SwaggerPhpDescriber implements ModelRegistryAwareInterface
             $implicitAnnotations = [];
             $tags = [];
             $security = [];
-            foreach ($annotations as $annotation) {
+            foreach (array_merge($annotations, $classAnnotations[$declaringClass->getName()]) as $annotation) {
                 $annotation->_context = $context;
                 $this->updateNestedAnnotations($annotation, $nestedContext);
 
@@ -206,8 +218,18 @@ final class SwaggerPhpDescriber implements ModelRegistryAwareInterface
                 $path = $this->normalizePath($route->getPath());
                 $httpMethods = $route->getMethods() ?: Swagger::$METHODS;
                 $httpMethods = array_map('strtolower', $httpMethods);
+                $supportedHttpMethods = array_intersect($httpMethods, Swagger::$METHODS);
 
-                yield $method => [$path, $httpMethods];
+                if (empty($supportedHttpMethods)) {
+                    $this->logger->warning('None of the HTTP methods specified for path {path} are supported by swagger-ui, skipping this path', [
+                        'path' => $path,
+                        'methods' => $httpMethods,
+                    ]);
+
+                    continue;
+                }
+
+                yield $method => [$path, $supportedHttpMethods];
             }
         }
     }
