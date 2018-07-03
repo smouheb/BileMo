@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: MacBookAir
- * Date: 10/04/2018
- * Time: 21:46
- */
 
 namespace AppBundle\Controller;
 
@@ -16,39 +10,31 @@ use Swagger\Annotations as SWG;
 class ProductController extends FOSRestController
 {
     /**
-     *  @SWG\Get(
-     *     path="/products",
-     *     summary="Get products",
-     *     description="Get products",
-     *     operationId="listOfAllProductsAction",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *         name="order",
-     *         in="query",
-     *         description="Order criterion",
-     *         type="string",
-     *     ),
-     *     @SWG\Parameter(
-     *         name="dir",
-     *         in="query",
-     *         description="Sort criterion",
-     *         type="string",
-     *     ),
-     *     @SWG\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="Page number",
-     *         type="integer",
-     *     ),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="Success",
-     *     )
-     * )
+     * @SWG\Response(
      *
+     *     response=200,
+     *     description="BileMo api lists all products available",
+     *
+     *      )
+     * @SWG\Response(
+     *
+     *      response="401",
+     *      description="You need to be authorized to access the api"
+     *
+     *      )
+     *
+     * @SWG\Parameter(
+     *
+     *      name="Authorization",
+     *      in="header",
+     *      description="As a client or user,  you need to pass your token in the header section  with Bearer {jwt}",
+     *      required=true,
+     *      type="string"
+     *
+     *     )
      * @Rest\Get(path="/products", name="list-of-products")
      *
-     * @Rest\View(statusCode = 200)
+     * @Rest\View(statusCode = 200)!i
      *
      */
     public function listOfAllProductsAction()
@@ -63,12 +49,32 @@ class ProductController extends FOSRestController
     }
 
     /**
+     * @SWG\Response(
+     *
+     *     response=200,
+     *     description="This will provide you with the product related to the product id you will provide",
+     *
+     *      )
+     * @SWG\Response(
+     *
+     *      response="401",
+     *      description="You need to be authorized to access the api"
+     *
+     *      )
+     * @SWG\Parameter(
+     *
+     *      name="Authorization",
+     *      in="header",
+     *      description="As a client or user,  you need to pass your token in the header section with Bearer {jwt}",
+     *      required=true,
+     *      type="string"
+     *
+     *     )
      *
      * @Rest\Get(path="/products/{id}", name="Product-details")
      *
      * @Rest\View(statusCode= 200)
      *
-     * @param $id
      */
     public function productDetailsAction($id)
     {

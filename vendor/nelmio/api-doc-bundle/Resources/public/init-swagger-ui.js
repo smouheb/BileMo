@@ -22,4 +22,4 @@ window.onload = () => {
   });
 
   window.ui = ui;
-};
+}

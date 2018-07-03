@@ -34,6 +34,13 @@ framework:
         engines: ['twig']
     default_locale:  "%locale%"
 
+# Assetic Configuration
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+
 # Twig Configuration
 twig:
     debug: '%kernel.debug%'
@@ -109,3 +116,19 @@ fos_user:
     from_email:
         address: "smael.mouheb@gmail.com"
         sender_name: "BileMo-Post Man"
+
+nelmio_api_doc:
+    areas:
+        path_patterns:
+            - ^/(products)|(users)|(clients)
+    documentation:
+        info:
+            title: Phone market API
+            description: get all the details of our stock to your own app by using our api
+            version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header

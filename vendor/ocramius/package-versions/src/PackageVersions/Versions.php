@@ -37,6 +37,7 @@ final class Versions
   'jms/parser-lib' => '1.0.0@c509473bc1b4866415627af0e1c6cc8ac97fa51d',
   'jms/serializer' => '1.11.0@e7c53477ff55c21d1b1db7d062edc050a24f465f',
   'jms/serializer-bundle' => '2.3.1@9dec7ab62248aa97f33cce70c301af15154f8f0b',
+  'kriswallsmith/assetic' => 'v1.4.0@e911c437dbdf006a8f62c2f59b15b2d69a5e0aa1',
   'monolog/monolog' => '1.23.0@fd8c787753b3a2ad11bc60c063cff1358a32a3b4',
   'nelmio/api-doc-bundle' => 'v3.2.1@2c72aa4efff07862514aaf2cf078fabc58c465d6',
   'ocramius/package-versions' => '1.2.0@ad8a245decad4897cc6b432743913dad0d69753c',
@@ -56,6 +57,7 @@ final class Versions
   'sensio/framework-extra-bundle' => 'v5.1.6@bf4940572e43af679aaa13be98f3446a1c237bd8',
   'sensiolabs/security-checker' => 'v4.1.8@dc270d5fec418cc6ac983671dba5d80ffaffb142',
   'swiftmailer/swiftmailer' => 'v5.4.9@7ffc1ea296ed14bf8260b6ef11b80208dbadba91',
+  'symfony/assetic-bundle' => 'v2.8.2@2e0a23a4874838e26de6f025e02fc63328921a4c',
   'symfony/monolog-bundle' => 'v3.2.0@8781649349fe418d51d194f8c9d212c0b97c40dd',
   'symfony/polyfill-apcu' => 'v1.7.0@e8ae2136ddb53dea314df56fcd88e318ab936c00',
   'symfony/polyfill-ctype' => 'v1.8.0@7cc359f1b7b80fc25ed7796be7d96adc9b354bae',
@@ -79,7 +81,7 @@ final class Versions
   'doctrine/doctrine-fixtures-bundle' => '3.0.2@7fc29d2b18c61ed99826b21fbfd1ff9969cc2e7f',
   'sensio/generator-bundle' => 'v3.1.7@28cbaa244bd0816fd8908b93f90380bcd7b67a65',
   'symfony/phpunit-bridge' => 'v3.4.8@48c669ec1a2b0425d4a82c7ad4bce2f5b947b95e',
-  'macbookair/bilemo' => 'dev-master@56d59e922de2af0e7f48b4bf6351626be5a3b574',
+  'macbookair/bilemo' => 'dev-master@0f4bd398988c7e09270d882c04bfd03e622aa6b8',
 );
 
     private function __construct()

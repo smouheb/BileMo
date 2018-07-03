@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -14,6 +15,28 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class ClientController extends FOSRestController
 {
     /**
+     * @SWG\Response(
+     *
+     *     response=200,
+     *     description="This will provide you with the details of the related user",
+     *
+     *      )
+     * @SWG\Response(
+     *
+     *      response="401",
+     *      description="You need to be authorized to access the api"
+     *
+     *      )
+     * @SWG\Parameter(
+     *
+     *      name="Authorization",
+     *      in="header",
+     *      description="As a client you need to pass your token in the header with Bearer {jwt}",
+     *      required=true,
+     *      type="string"
+     *
+     *     )
+     *
      * @Rest\Get(path="/users/{id}", name="Users")
      *
      * @Rest\View(statusCode = 200)
@@ -31,6 +54,28 @@ class ClientController extends FOSRestController
     }
 
     /**
+     * @SWG\Response(
+     *
+     *     response="200",
+     *     description="This will provide you with the users link to your client id"
+     *
+     *      )
+     * @SWG\Response(
+     *
+     *      response="401",
+     *      description="You need to be authorized to access the api"
+     *
+     *      )
+     * @SWG\Parameter(
+     *
+     *      name="Authorization",
+     *      in="header",
+     *      description="As a client you need to pass your token in the header with Bearer {jwt}",
+     *      required=true,
+     *      type="string"
+     *
+     *     )
+     *
      * @Rest\Get(path="/clients/{id}", name="Client")
      *
      * @Rest\View(statusCode = 200)
@@ -43,7 +88,6 @@ class ClientController extends FOSRestController
             throw new AccessDeniedException();
 
         }
-        //Query pour aller recuperer tous les users lié à un Client
 
         $em = $this->getDoctrine()
                    ->getManager();
@@ -63,6 +107,27 @@ class ClientController extends FOSRestController
     }
 
     /**
+     * @SWG\Response(
+     *
+     *     response=201,
+     *     description="This will create a new user",
+     *
+     *      )
+     * @SWG\Response(
+     *
+     *      response="401",
+     *      description="You need to be authorized to access the api"
+     *
+     *      )
+     * @SWG\Parameter(
+     *
+     *      name="Authorization",
+     *      in="header",
+     *      description="As a client you need to pass your token in the header with Bearer {jwt}",
+     *      required=true,
+     *      type="string"
+     *
+     *     )
      * @Rest\Post(path="/users", name="user-creation")
      *
      * @Rest\View(statusCode = 201)
@@ -114,6 +179,28 @@ class ClientController extends FOSRestController
     }
 
     /**
+     * @SWG\Response(
+     *
+     *     response=204,
+     *     description="This will delete the related user",
+     *
+     *      )
+     * @SWG\Response(
+     *
+     *      response="401",
+     *      description="You need to be authorized to access the api"
+     *
+     *      )
+     * @SWG\Parameter(
+     *
+     *      name="Authorization",
+     *      in="header",
+     *      description="As a client you need to pass your token in the header with Bearer {jwt}",
+     *      required=true,
+     *      type="string"
+     *
+     *     )
+     *
      * @Rest\Delete(path="/users/{id}", name="user-deletion")
      *
      * @Rest\View(statusCode = 204)
