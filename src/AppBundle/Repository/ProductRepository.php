@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
+use Doctrine\ORM\Mapping;
 use Doctrine\ORM\NoResultException;
 
 /**
@@ -11,6 +13,7 @@ use Doctrine\ORM\NoResultException;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+
     public function namesOfProducts()
     {
         $em = $this->getEntityManager();

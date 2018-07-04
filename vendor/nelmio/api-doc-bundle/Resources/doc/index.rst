@@ -140,8 +140,8 @@ To document your routes, you can use the SwaggerPHP annotations and the
 
     class UserController
     {
-        /*
-         * List the rewards of the specified user.
+        /**
+         * List the rewards of the specified user.
          *
          * This call takes into account all confirmed awards, but not pending or refused awards.
          *
@@ -262,7 +262,7 @@ General PHP objects
 
 If you want to customize the documentation of a property of an object, you can use ``@SWG\Property``::
 
-    use NelmioApiDocBundle\Annotation\Model;
+    use Nelmio\ApiDocBundle\Annotation\Model;
     use Swagger\Annotations as SWG;
 
     class User

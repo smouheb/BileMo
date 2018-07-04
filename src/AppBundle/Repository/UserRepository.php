@@ -11,6 +11,8 @@ use Doctrine\ORM\NoResultException;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
     public function listOfRelatedUsers($id)
     {
         $em = $this->getEntityManager();

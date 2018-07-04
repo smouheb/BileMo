@@ -9,7 +9,7 @@ file that was distributed with this source code. #}
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>NelmioApiDocBundle</title>
+    <title>{{ swagger_data.spec.info.title }} - BileMo</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700">
     <link rel="stylesheet" href="{{ asset('bundles/nelmioapidoc/swagger-ui/swagger-ui.css') }}">
@@ -45,7 +45,7 @@ file that was distributed with this source code. #}
         </defs>
     </svg>
     <header>
-        <a id="logo" href="https://github.com/nelmio/NelmioApiDocBundle"><img src="{{ asset('bundles/nelmioapidoc/logo.png') }}" alt="NelmioApiDocBundle"></a>
+        <a id="logo" href="https://github.com/smouheb/BileMo" style="text-decoration: none"><h1 style="color: white">BileMo</h1></a>
     </header>
 
     <div id="swagger-ui" class="api-platform"></div>

@@ -12,6 +12,7 @@
 namespace Nelmio\ApiDocBundle\Tests\Functional;
 
 use EXSyst\Component\Swagger\Tag;
+use Nelmio\ApiDocBundle\Tests\Functional\Form\DummyEmptyType;
 use Nelmio\ApiDocBundle\Tests\Functional\Form\DummyType;
 
 class FunctionalTest extends WebTestCase
@@ -223,11 +224,20 @@ class FunctionalTest extends WebTestCase
         $this->assertEquals([
             'type' => 'object',
             'properties' => [
+                'strings' => [
+                    'items' => ['type' => 'string'],
+                    'type' => 'array',
+                ],
                 'dummy' => ['$ref' => '#/definitions/DummyType'],
                 'dummies' => [
                     'items' => ['$ref' => '#/definitions/DummyType'],
                     'type' => 'array',
                     'example' => sprintf('[{%s}]', DummyType::class),
+                ],
+                'empty_dummies' => [
+                    'items' => ['$ref' => '#/definitions/DummyEmptyType'],
+                    'type' => 'array',
+                    'example' => sprintf('[{%s}]', DummyEmptyType::class),
                 ],
                 'quz' => [
                     'type' => 'string',
@@ -271,6 +281,16 @@ class FunctionalTest extends WebTestCase
 
         $expected = [
             ['api_key' => []],
+            ['basic' => []],
+        ];
+        $this->assertEquals($expected, $operation->getSecurity());
+    }
+
+    public function testClassSecurityAction()
+    {
+        $operation = $this->getOperation('/api/security/class', 'get');
+
+        $expected = [
             ['basic' => []],
         ];
         $this->assertEquals($expected, $operation->getSecurity());
