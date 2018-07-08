@@ -7,8 +7,6 @@ use AppBundle\Entity\Client;
 use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\NativeQuery;
 
 class LoadTestData extends Fixture
 {
@@ -36,17 +34,16 @@ class LoadTestData extends Fixture
     public function loadUser($clientid)
     {
 
+        $name = 'testuser1';
         $user = new User();
 
-        $user->setUsername('testuser1');
+        $user->setUsername($name);
         $user->setEmail('user@test.com');
-        $user->setPassword('testuser1');
+        $user->setPlainPassword($name);
         $user->setClient($clientid);
-        $user->setRoles(array('ROLE_SUPER_ADMIN'));
+        $user->setRoles(array('ROLE_ADMIN'));
 
         return $user;
-
-        //creer quelque chose pour que qd l'utilisateur recupere directement le premier client crée
     }
 
 
