@@ -24,6 +24,7 @@ abstract class User implements UserInterface, GroupableInterface
 {
     /**
      * @var mixed
+     *
      */
     protected $id;
 
@@ -34,6 +35,8 @@ abstract class User implements UserInterface, GroupableInterface
 
     /**
      * @var string
+     *
+     * @
      */
     protected $usernameCanonical;
 

@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="client")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ClientRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Client extends BaseClient
 {
@@ -214,5 +215,19 @@ class Client extends BaseClient
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set id
+     *
+     * @return $id
+     *
+     * @ORM\PrePersist()
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 }
