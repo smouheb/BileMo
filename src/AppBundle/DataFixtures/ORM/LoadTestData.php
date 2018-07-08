@@ -42,6 +42,7 @@ class LoadTestData extends Fixture
         $user->setPlainPassword($name);
         $user->setClient($clientid);
         $user->setRoles(array('ROLE_ADMIN'));
+        $user->setEnabled(true);
 
         return $user;
     }
