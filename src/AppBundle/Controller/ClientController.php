@@ -170,9 +170,9 @@ class ClientController extends FOSRestController
                'Location' => $this->generateUrl("Users",
 
                     [
-                        'id' => $user->getId(), UrlGeneratorInterface::ABSOLUTE_URL
+                        'id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL
 
-                    ]
+
                )
            ]
        );

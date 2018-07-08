@@ -26,20 +26,11 @@ use FOS\UserBundle\Model\User as BaseUser;
  * )
  *
  * @Hateoas\Relation(
- *     "create",
- *     href= @Hateoas\Route(
- *      "user-creation",
- *      parameters={ "id" = "expr(object.getId())" },
- *      absolute=true
- *     )
- * )
- *
- * @Hateoas\Relation(
  *     "delete",
  *     href= @Hateoas\Route(
  *      "user-deletion",
  *      parameters={ "id" = "expr(object.getId())" },
- *      absolute=true
+ *      absolute=true,
  *     )
  * )
  */
@@ -61,7 +52,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="createdat", type="datetime")
      *
-     * @Serializer\Expose()
+     * @Serializer\Exclude(if="null")
      */
     protected $createdat;
 
@@ -69,6 +60,8 @@ class User extends BaseUser
      * @var \DateTime
      *
      * @ORM\Column(name="updatedat", type="datetime", nullable=true)
+     *
+     * @Serializer\Exclude(if="null")
      */
     protected $updatedat;
 
@@ -77,7 +70,6 @@ class User extends BaseUser
      *
      * @ORM\Column(name="client_id", type="integer")
      *
-     * @Serializer\Expose()
      */
     protected $client;
 
