@@ -4,11 +4,10 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\DataFixtures;
 use AppBundle\Entity\Client;
+use AppBundle\Entity\Product;
 use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\NativeQuery;
 
 class LoadTestData extends Fixture
 {
@@ -17,6 +16,7 @@ class LoadTestData extends Fixture
         $client = $this->loadClient();
 
         $manager->persist($client);
+
         $manager->flush();
 
         //retrieving the last inster id
@@ -31,22 +31,24 @@ class LoadTestData extends Fixture
             $manager->flush();
         }
 
+
+
     }
 
     public function loadUser($clientid)
     {
 
+        $name = 'testuser1';
         $user = new User();
 
-        $user->setUsername('testuser1');
+        $user->setUsername($name);
         $user->setEmail('user@test.com');
-        $user->setPassword('testuser1');
+        $user->setPlainPassword($name);
         $user->setClient($clientid);
-        $user->setRoles(array('ROLE_SUPER_ADMIN'));
+        $user->setRoles(array('ROLE_ADMIN'));
+        $user->setEnabled(true);
 
         return $user;
-
-        //creer quelque chose pour que qd l'utilisateur recupere directement le premier client crée
     }
 
 
@@ -61,5 +63,6 @@ class LoadTestData extends Fixture
         return $client;
 
     }
+
 
 }
