@@ -4,6 +4,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\DataFixtures;
 use AppBundle\Entity\Client;
+use AppBundle\Entity\Product;
 use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -15,6 +16,7 @@ class LoadTestData extends Fixture
         $client = $this->loadClient();
 
         $manager->persist($client);
+
         $manager->flush();
 
         //retrieving the last inster id
@@ -28,6 +30,8 @@ class LoadTestData extends Fixture
 
             $manager->flush();
         }
+
+
 
     }
 
@@ -59,5 +63,6 @@ class LoadTestData extends Fixture
         return $client;
 
     }
+
 
 }
