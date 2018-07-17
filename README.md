@@ -55,7 +55,7 @@ you will be asked to:
 If not then use the command line *bin/console fos:oauth-server:create-client --grant-type="password"*.
 The credential related to the user are also from the fixtures loaded in your db
 
-once you get the resonse with the token *e.g:*
+once you get the response with the token *example below:*
 
 {
     "access_token": "NTM1M2NhN2NhZWZjOTI4MWIwYTlkMDJjOWNjOTgwMjVkODYyMDJmYzlkYmQyZGIyMmU4N2ZjZWVhNGFjNDY2MQ",
