@@ -172,39 +172,4 @@ class User extends BaseUser
     {
         return $this->client;
     }
-
-
-    /**
-     * Add entityupdate
-     *
-     * @param \AppBundle\Entity\EntityUpdate $entityupdate
-     *
-     * @return User
-     */
-    public function addEntityupdate(\AppBundle\Entity\EntityUpdate $entityupdate)
-    {
-        $this->entityupdate[] = $entityupdate;
-
-        return $this;
-    }
-
-    /**
-     * Remove entityupdate
-     *
-     * @param \AppBundle\Entity\EntityUpdate $entityupdate
-     */
-    public function removeEntityupdate(\AppBundle\Entity\EntityUpdate $entityupdate)
-    {
-        $this->entityupdate->removeElement($entityupdate);
-    }
-
-    /**
-     * Get entityupdate
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEntityupdate()
-    {
-        return $this->entityupdate;
-    }
 }
