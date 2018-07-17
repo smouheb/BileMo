@@ -34,5 +34,7 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
     # Fixtures services
-    AppBundle\DataFixtures\ORM\LoadTestData:
+    AppBundle\DataFixtures\ORM\LoadProductData:
+        tags: [doctrine.fixture.orm]
+    AppBundle\DataFixtures\ORM\LoadClientAndUserData:
         tags: [doctrine.fixture.orm]
