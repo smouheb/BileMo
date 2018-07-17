@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Product;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Swagger\Annotations as SWG;
 
 class ProductController extends FOSRestController
@@ -34,7 +35,12 @@ class ProductController extends FOSRestController
      *     )
      * @Rest\Get(path="/products", name="list-of-products")
      *
-     * @Rest\View(statusCode = 200)!i
+     * @Rest\View(statusCode = 200)
+     *
+     * @Cache(
+     *     maxage=30,
+     *     public=true
+     * )
      *
      */
     public function listOfAllProductsAction()

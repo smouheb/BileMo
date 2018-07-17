@@ -2,10 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
 use FOS\UserBundle\Model\User as BaseUser;
+use AppBundle\Entity\EntityUpdate;
 
 /**
  * User
@@ -22,6 +24,15 @@ use FOS\UserBundle\Model\User as BaseUser;
  *      "Users",
  *      parameters={ "id" = "expr(object.getId())" },
  *      absolute=true
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "modification",
+ *     href= @Hateoas\Route(
+ *      "user-modification",
+ *      parameters={ "id" = "expr(object.getId())" },
+ *      absolute=true,
  *     )
  * )
  *
@@ -44,6 +55,7 @@ class User extends BaseUser
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EntityUpdate", cascade={"persist", "remove"}, mappedBy="entity_id")
      */
     protected $id;
 
@@ -52,7 +64,6 @@ class User extends BaseUser
      *
      * @ORM\Column(name="createdat", type="datetime")
      *
-     * @Serializer\Exclude(if="null")
      */
     protected $createdat;
 
@@ -61,9 +72,17 @@ class User extends BaseUser
      *
      * @ORM\Column(name="updatedat", type="datetime", nullable=true)
      *
-     * @Serializer\Exclude(if="null")
      */
     protected $updatedat;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EntityUpdate", cascade={"persist", "remove"}, mappedBy="lastupdateddate"),
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $entityupdate;
+
+
 
     /**
      * @var integer
@@ -78,6 +97,8 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->createdat = new \DateTime();
+        $this->entityupdate = new ArrayCollection();
+
     }
 
     /**
@@ -162,4 +183,38 @@ class User extends BaseUser
         return $this->client;
     }
 
+
+    /**
+     * Add entityupdate
+     *
+     * @param \AppBundle\Entity\EntityUpdate $entityupdate
+     *
+     * @return User
+     */
+    public function addEntityupdate(\AppBundle\Entity\EntityUpdate $entityupdate)
+    {
+        $this->entityupdate[] = $entityupdate;
+
+        return $this;
+    }
+
+    /**
+     * Remove entityupdate
+     *
+     * @param \AppBundle\Entity\EntityUpdate $entityupdate
+     */
+    public function removeEntityupdate(\AppBundle\Entity\EntityUpdate $entityupdate)
+    {
+        $this->entityupdate->removeElement($entityupdate);
+    }
+
+    /**
+     * Get entityupdate
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEntityupdate()
+    {
+        return $this->entityupdate;
+    }
 }

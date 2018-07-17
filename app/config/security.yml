@@ -30,9 +30,9 @@ security:
 
         api:
             pattern: ^/
-            fos_oauth: true
+            fos_oauth: false
             stateless: true
-            anonymous: false # can be omitted as its default value
+            anonymous: true # can be omitted as its default value
 
     access_control:
         - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
