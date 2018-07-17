@@ -282,12 +282,6 @@ class ClientController extends FOSRestController
             $user->setEmail($request->get('email'));
             $user->setUpdatedAt(new \DateTime('now'));
 
-            $userupdate = new EntityUpdate();
-            $userupdate->setEntityId($request->get('id'));
-            $userupdate->setEntityname('User');
-            $userupdate->setLastupdateddate($user->getUpdatedAt());
-            $user->addEntityupdate($userupdate);
-
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($user);

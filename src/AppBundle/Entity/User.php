@@ -55,7 +55,6 @@ class User extends BaseUser
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EntityUpdate", cascade={"persist"}, mappedBy="entity_id")
      */
     protected $id;
 
@@ -74,15 +73,6 @@ class User extends BaseUser
      *
      */
     protected $updatedat;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EntityUpdate", cascade={"persist"}, mappedBy="lastupdateddate"),
-     * @ORM\JoinColumn(nullable=false)
-     */
-    protected $entityupdate;
-
-
 
     /**
      * @var integer
@@ -181,40 +171,5 @@ class User extends BaseUser
     public function getClient()
     {
         return $this->client;
-    }
-
-
-    /**
-     * Add entityupdate
-     *
-     * @param \AppBundle\Entity\EntityUpdate $entityupdate
-     *
-     * @return User
-     */
-    public function addEntityupdate(\AppBundle\Entity\EntityUpdate $entityupdate)
-    {
-        $this->entityupdate[] = $entityupdate;
-
-        return $this;
-    }
-
-    /**
-     * Remove entityupdate
-     *
-     * @param \AppBundle\Entity\EntityUpdate $entityupdate
-     */
-    public function removeEntityupdate(\AppBundle\Entity\EntityUpdate $entityupdate)
-    {
-        $this->entityupdate->removeElement($entityupdate);
-    }
-
-    /**
-     * Get entityupdate
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEntityupdate()
-    {
-        return $this->entityupdate;
     }
 }

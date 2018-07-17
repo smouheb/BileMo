@@ -46,14 +46,6 @@ class Client extends BaseClient
     private $updatedat;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product")
-     * @ORM\JoinTable(name="client_products",
-     *      joinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")})
-     */
-    private $product;
-
-    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", cascade={"remove"}, mappedBy="client")
      */
     private $user;
@@ -63,7 +55,6 @@ class Client extends BaseClient
     {
         parent::__construct();
         $this->createdat = new \DateTime();
-        $this->product = new ArrayCollection();
         $this->user = new ArrayCollection();
     }
 
@@ -147,40 +138,6 @@ class Client extends BaseClient
     public function getUpdatedAt()
     {
         return $this->updatedat;
-    }
-
-    /**
-     * Add product
-     *
-     * @param \AppBundle\Entity\Product $product
-     *
-     * @return Client
-     */
-    public function addProduct(\AppBundle\Entity\Product $product)
-    {
-        $this->product[] = $product;
-
-        return $this;
-    }
-
-    /**
-     * Remove product
-     *
-     * @param \AppBundle\Entity\Product $product
-     */
-    public function removeProduct(\AppBundle\Entity\Product $product)
-    {
-        $this->product->removeElement($product);
-    }
-
-    /**
-     * Get product
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 
     /**
