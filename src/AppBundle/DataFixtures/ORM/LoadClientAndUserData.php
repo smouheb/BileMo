@@ -4,12 +4,11 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\DataFixtures;
 use AppBundle\Entity\Client;
-use AppBundle\Entity\Product;
 use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadTestData extends Fixture
+class LoadClientAndUserData extends Fixture
 {
     public function load(ObjectManager $manager)
     {

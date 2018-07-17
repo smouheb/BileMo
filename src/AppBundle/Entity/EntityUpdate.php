@@ -1,0 +1,132 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\User;
+
+/**
+ * EntityUpdate
+ *
+ * @ORM\Table(name="entity_update")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EntityUpdateRepository")
+ */
+class EntityUpdate
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="entity_id", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="id")
+     */
+    private $entityId;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="entityname", type="string", length=255)
+     */
+    private $entityname;
+
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastupdateddate", type="datetime")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="updatedat")
+     */
+    private $lastupdateddate;
+
+
+    public function __construct()
+    {
+        $this->entityId = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set entityname
+     *
+     * @param string $entityname
+     *
+     * @return EntityUpdate
+     */
+    public function setEntityname($entityname)
+    {
+        $this->entityname = $entityname;
+
+        return $this;
+    }
+
+    /**
+     * Get entityname
+     *
+     * @return string
+     */
+    public function getEntityname()
+    {
+        return $this->entityname;
+    }
+
+    /**
+     * Set lastupdateddate
+     *
+     * @param \DateTime $lastupdateddate
+     *
+     * @return EntityUpdate
+     */
+    public function setLastupdateddate($lastupdateddate)
+    {
+        $this->lastupdateddate = $lastupdateddate;
+
+        return $this;
+    }
+
+    /**
+     * Get lastupdateddate
+     *
+     * @return \DateTime
+     */
+    public function getLastupdateddate()
+    {
+        return $this->lastupdateddate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntityId(): string
+    {
+        return $this->entityId;
+    }
+
+    /**
+     * @param string $entityId
+     */
+    public function setEntityId($entityId)
+    {
+        $this->entityId = $entityId;
+    }
+
+}

@@ -30,4 +30,5 @@ $kernel = new AppCache($kernel);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
+error_log($kernel->getLog());
 $kernel->terminate($request, $response);
