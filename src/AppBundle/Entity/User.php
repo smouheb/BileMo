@@ -55,7 +55,6 @@ class User extends BaseUser
      * @ORM\Id
      *
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EntityUpdate", cascade={"persist"}, mappedBy="entity_id")
      */
     protected $id;
 
@@ -74,15 +73,6 @@ class User extends BaseUser
      *
      */
     protected $updatedat;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EntityUpdate", cascade={"persist"}, mappedBy="lastupdateddate"),
-     * @ORM\JoinColumn(nullable=false)
-     */
-    protected $entityupdate;
-
-
 
     /**
      * @var integer
