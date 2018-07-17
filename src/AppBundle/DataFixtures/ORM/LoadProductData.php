@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: MacBookAir
- * Date: 09/07/2018
- * Time: 20:57
- */
+
 
 namespace AppBundle\DataFixtures\ORM;
 
